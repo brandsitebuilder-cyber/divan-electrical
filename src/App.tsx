@@ -1,0 +1,117 @@
+import { useState } from 'react';
+import { Zap, ShieldCheck, Star, MessageSquare, ChevronRight, Wrench, Home, AlertTriangle } from 'lucide-react';
+
+export default function App() {
+  const [formData, setFormData] = useState({ name: '', phone: '', service: '', message: '' });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Booking submitted:', formData);
+    alert('Thank you! We will get back to you shortly.');
+  };
+
+  const services = [
+    { title: 'Electrical Maintenance & Repairs', icon: Wrench },
+    { title: 'New Installations', icon: Home },
+    { title: 'Emergency Call-Outs', icon: AlertTriangle },
+  ];
+
+  const testimonials = [
+    { text: "Divan was professional and efficient. Sorted out our power issues quickly. Highly recommended.", name: "Johan V." },
+    { text: "Great service! Came out on short notice for an emergency repair. Clean work, fair pricing.", name: "Annelize K." },
+    { text: "Did a full rewire of our kitchen. Neat, on time, and everything works perfectly. Will use again.", name: "Pieter M." },
+  ];
+
+  return (
+    <div className="min-h-screen bg-black text-slate-100 font-sans">
+      {/* WhatsApp Button */}
+      <a
+        href="https://wa.me/27842516099?text=Hi%20Divan%20Du%20Toit%20Electrical,%20I%20found%20your%20website%20and%20need%20help%20with%20an%20electrical%20project."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 bg-amber-500 text-black p-4 rounded-full shadow-lg z-50 hover:bg-amber-400 transition"
+      >
+        <MessageSquare size={24} />
+      </a>
+
+      {/* Hero */}
+      <header className="relative bg-black text-white py-20 px-6 text-center border-b border-slate-800 overflow-hidden">
+        <div className="absolute inset-0 z-0 opacity-20 bg-gradient-to-b from-amber-500/10 to-transparent"></div>
+        <div className="relative z-10 flex flex-col items-center mb-8">
+          <h1 className="text-4xl font-bold text-amber-500 mb-2">Divan Du Toit</h1>
+          <span className="text-2xl font-semibold text-slate-100">Electrical</span>
+        </div>
+        <p className="relative z-10 text-xl text-slate-400 mb-8 max-w-2xl mx-auto">
+          Reliable electrical services in Belair, Cape Town — 4.7 stars on Google. Residential and commercial solutions you can trust.
+        </p>
+        <a href="#booking" className="relative z-10 bg-amber-500 text-black px-8 py-3 rounded-lg font-bold hover:bg-amber-400 transition">Book Now</a>
+      </header>
+
+      {/* Trust Bar */}
+      <div className="bg-black border-b border-slate-800 py-6 text-center">
+        <a href="https://maps.app.goo.gl/wUTtH1yxgVk56FPC9" target="_blank" className="flex items-center justify-center gap-2 text-slate-300 hover:text-amber-500 transition">
+          <ShieldCheck className="text-amber-500" />
+          <span className="font-semibold">Google Verified Electrician — 4.7 ★</span>
+        </a>
+      </div>
+
+      {/* Services */}
+      <section className="py-16 px-6 max-w-5xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12">Our Services</h2>
+        <div className="grid md:grid-cols-3 gap-8">
+          {services.map((s, i) => (
+            <div key={i} className="p-6 bg-slate-900 rounded-xl shadow-sm border border-slate-800 text-center">
+              <s.icon className="mx-auto mb-4 text-amber-500" size={32} />
+              <h3 className="text-xl font-semibold">{s.title}</h3>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Reviews */}
+      <section className="bg-slate-950 py-16 px-6">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">Trusted by Local Customers</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((review, i) => (
+              <div key={i} className="bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-800">
+                <div className="flex text-amber-500 mb-2 gap-1">{[...Array(5)].map((_, j) => <Star key={j} size={16} fill="currentColor" />)}</div>
+                <p className="text-slate-300 italic mb-4">"{review.text}"</p>
+                <div className="font-semibold text-white">— {review.name}</div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-12">
+            <a href="https://maps.app.goo.gl/wUTtH1yxgVk56FPC9" className="text-amber-500 font-semibold flex items-center justify-center gap-1 hover:underline">
+              Write a Review on Google <ChevronRight size={16} />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Booking Form */}
+      <section id="booking" className="py-16 px-6">
+        <div className="max-w-xl mx-auto bg-slate-900 p-8 rounded-xl shadow-md border border-slate-800">
+          <h2 className="text-2xl font-bold mb-6">Schedule Your Service</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input type="text" placeholder="Name" className="w-full p-3 bg-black border border-slate-700 rounded-lg text-white" onChange={e => setFormData({...formData, name: e.target.value})} required />
+            <input type="tel" placeholder="Phone" className="w-full p-3 bg-black border border-slate-700 rounded-lg text-white" onChange={e => setFormData({...formData, phone: e.target.value})} required />
+            <select className="w-full p-3 bg-black border border-slate-700 rounded-lg text-white" onChange={e => setFormData({...formData, service: e.target.value})}>
+                <option value="">Select Service</option>
+                <option value="residential">Residential</option>
+                <option value="commercial">Commercial</option>
+                <option value="emergency">Emergency</option>
+            </select>
+            <textarea placeholder="Message" className="w-full p-3 bg-black border border-slate-700 rounded-lg text-white h-32" onChange={e => setFormData({...formData, message: e.target.value})}></textarea>
+            <button type="submit" className="w-full bg-amber-500 text-black py-3 rounded-lg font-bold hover:bg-amber-400 transition">Book Now</button>
+          </form>
+        </div>
+      </section>
+
+      <footer className="py-8 text-center border-t border-slate-800 text-slate-500 text-sm">
+        <p>Divan Du Toit | 084 251 6099</p>
+        <p>37 Vygie St, Belair, Cape Town, 7530</p>
+      </footer>
+    </div>
+  );
+}
