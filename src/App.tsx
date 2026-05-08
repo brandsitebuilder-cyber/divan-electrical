@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { Zap, ShieldCheck, Star, MessageSquare, ChevronRight, Wrench, Home, AlertTriangle } from 'lucide-react';
+import { Zap, ShieldCheck, Star, MessageSquare, ChevronRight, Wrench, Home, AlertTriangle, FileText } from 'lucide-react';
 
 export default function App() {
-  const [formData, setFormData] = useState({ name: '', phone: '', service: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', phone: '', service: '', message: '', requestType: 'booking' });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Booking submitted:', formData);
-    alert('Thank you! We will get back to you shortly.');
+    const type = formData.requestType === 'quote' ? 'Quote request' : 'Booking';
+    console.log(`${type} submitted:`, formData);
+    alert(`Thank you! We'll get back to you about your ${formData.requestType === 'quote' ? 'quote' : 'booking'} shortly.`);
   };
 
   const services = [
@@ -47,7 +48,10 @@ export default function App() {
         <p className="relative z-10 text-xl text-slate-400 mb-8 max-w-2xl mx-auto">
           Reliable electrical services in Belair, Cape Town — 4.7 stars on Google. Residential and commercial solutions you can trust.
         </p>
-        <a href="#booking" className="relative z-10 bg-amber-500 text-black px-8 py-3 rounded-lg font-bold hover:bg-amber-400 transition">Book Now</a>
+        <div className="relative z-10 flex gap-4 justify-center flex-wrap">
+          <a href="#booking" onClick={() => setFormData({...formData, requestType: 'booking'})} className="bg-amber-500 text-black px-8 py-3 rounded-lg font-bold hover:bg-amber-400 transition">Book Now</a>
+          <a href="#booking" onClick={() => setFormData({...formData, requestType: 'quote'})} className="border-2 border-amber-500 text-amber-500 px-8 py-3 rounded-lg font-bold hover:bg-amber-500 hover:text-black transition">Request Quote</a>
+        </div>
       </header>
 
       {/* Trust Bar */}
@@ -92,11 +96,16 @@ export default function App() {
         </div>
       </section>
 
-      {/* Booking Form */}
+      {/* Booking / Quote Form */}
       <section id="booking" className="py-16 px-6">
         <div className="max-w-xl mx-auto bg-slate-900 p-8 rounded-xl shadow-md border border-slate-800">
-          <h2 className="text-2xl font-bold mb-6">Schedule Your Service</h2>
+          <h2 className="text-2xl font-bold mb-2">{formData.requestType === 'quote' ? 'Request a Quote' : 'Schedule Your Service'}</h2>
+          <p className="text-slate-400 mb-6 text-sm">{formData.requestType === 'quote' ? 'Tell us about your project and we\'ll send you a free estimate.' : 'Fill in your details and we\'ll confirm your booking.'}</p>
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="flex gap-3 mb-2">
+              <button type="button" onClick={() => setFormData({...formData, requestType: 'booking'})} className={`flex-1 py-2 rounded-lg font-medium transition ${formData.requestType === 'booking' ? 'bg-amber-500 text-black' : 'bg-slate-800 text-slate-400 hover:text-white'}`}>Book Service</button>
+              <button type="button" onClick={() => setFormData({...formData, requestType: 'quote'})} className={`flex-1 py-2 rounded-lg font-medium transition ${formData.requestType === 'quote' ? 'bg-amber-500 text-black' : 'bg-slate-800 text-slate-400 hover:text-white'}`}>Get a Quote</button>
+            </div>
             <input type="text" placeholder="Name" className="w-full p-3 bg-black border border-slate-700 rounded-lg text-white" onChange={e => setFormData({...formData, name: e.target.value})} required />
             <input type="tel" placeholder="Phone" className="w-full p-3 bg-black border border-slate-700 rounded-lg text-white" onChange={e => setFormData({...formData, phone: e.target.value})} required />
             <select className="w-full p-3 bg-black border border-slate-700 rounded-lg text-white" onChange={e => setFormData({...formData, service: e.target.value})}>
@@ -105,8 +114,8 @@ export default function App() {
                 <option value="commercial">Commercial</option>
                 <option value="emergency">Emergency</option>
             </select>
-            <textarea placeholder="Message" className="w-full p-3 bg-black border border-slate-700 rounded-lg text-white h-32" onChange={e => setFormData({...formData, message: e.target.value})}></textarea>
-            <button type="submit" className="w-full bg-amber-500 text-black py-3 rounded-lg font-bold hover:bg-amber-400 transition">Book Now</button>
+            <textarea placeholder={formData.requestType === 'quote' ? "Describe your project..." : "Message"} className="w-full p-3 bg-black border border-slate-700 rounded-lg text-white h-32" onChange={e => setFormData({...formData, message: e.target.value})}></textarea>
+            <button type="submit" className="w-full bg-amber-500 text-black py-3 rounded-lg font-bold hover:bg-amber-400 transition">{formData.requestType === 'quote' ? 'Send Quote Request' : 'Book Now'}</button>
           </form>
         </div>
       </section>
