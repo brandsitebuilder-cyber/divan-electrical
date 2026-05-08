@@ -35,8 +35,11 @@ export default function App() {
       </a>
 
       {/* Hero */}
-      <header className="relative bg-black text-white py-20 px-6 text-center border-b border-slate-800 overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-20 bg-gradient-to-b from-amber-500/10 to-transparent"></div>
+      <header className="relative text-white py-20 px-6 text-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img src="/hero-electrician.jpg" alt="Electrical work" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-black/70"></div>
+        </div>
         <div className="relative z-10 flex flex-col items-center mb-8">
           <h1 className="text-4xl font-bold text-amber-500 mb-2">Divan Du Toit</h1>
           <span className="text-2xl font-semibold text-slate-100">Electrical</span>
